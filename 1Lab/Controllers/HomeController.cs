@@ -8,6 +8,11 @@ namespace _1Lab.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
+        public enum Operators
+        {
+            ADD, SUB, MUL, DIV,
+        }
+
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -20,6 +25,31 @@ namespace _1Lab.Controllers
 
         public IActionResult Privacy()
         {
+            return View();
+        }
+
+        public IActionResult About([FromQuery(Name = "app-author")] string author)
+        {
+            //string author = Request.Query["author"];
+
+            ViewBag.Author = author;
+            return View();
+        }
+
+        public IActionResult Calculator([FromQuery(Name = "operator")] string op, double? a, double? b)
+        {
+            if (a == null || b == null)
+            {
+                return View("Error");
+            }
+
+            switch (op)
+            {
+                case Operators.ADD:
+                    ViewBag.result = a + b;
+                    break;
+            }
+
             return View();
         }
 
